@@ -1,0 +1,59 @@
+<!-- 
+　日付：2021/04/04
+　目的：onbizを使用して、ディスプレイにテキストを表示する。
+　概要：ブラウザでテキストを設定し、出力ボタンを押すと、onbizにテキストを表示する。
+ -->
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/obniz@3.x/obniz.js" crossorigin="anonymous" ></script>
+  </head>
+  <body>
+    <div id="obniz-debug"></div>
+    <div class="container">
+      <div class="text-center">
+        <h3>Print Text on obniz</h3>
+        <input type="text" id="text" value="Hello World" />
+        <button class="btn btn-primary" id="showtime">Print on obniz</button>
+      </div>
+
+      <div class="text-center">
+        <h5 style="margin-top:20px;">Display Switch State on obniz</h3>
+        <div id="print"></div>
+      </div>
+    </div>
+
+    <script>
+      //put your obniz ID
+      var obniz = new Obniz("OBNIZ_ID_HERE");
+
+      //during obniz connection
+      obniz.onconnect = async function() {
+        //init switch state on obniz
+        $("#print").text(await obniz.switch.getWait());
+
+        //if the "Print on obniz" clicked
+        $("#showtime").on("click", function() {
+          //show input text on obniz display
+          obniz.display.clear();
+          obniz.display.print($("#text").val());
+        });
+
+        //if the switch state changes
+        obniz.switch.onchange = function(state) {
+          //show the state on browser
+          $("#print").text(state);
+          //show the state on obniz display
+          obniz.display.clear();
+          obniz.display.print(state);
+        };
+
+      };
+    </script>
+  </body>
+</html>

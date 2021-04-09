@@ -46,37 +46,39 @@
     </div>
 
     <script>
+      // 変数宣言
+      let i; //カウント用変数
+      let bmax; //ボタンの最大数
+      let num = []; //num配列の作成
+      let button = []; //button配列の作成
+
       //put your obniz ID
       var obniz = new Obniz("OBNIZ_ID_HERE");
 
-      //during obniz connection
+      // 配列を使用してまとめる。
+      //during obniz connection(通信開始)
       obniz.onconnect = async function () {
         //buttonを押したときの動作
-        //0と1,0と2,0と3,0と4の接続
-        var button1 = obniz.wired("Button", { signal: 1, gnd: 0 });
-        var button2 = obniz.wired("Button", { signal: 2, gnd: 0 });
-        var button3 = obniz.wired("Button", { signal: 3, gnd: 0 });
-        var button4 = obniz.wired("Button", { signal: 4, gnd: 0 });
+        // iを1から4まで繰り返す。
+        for (i = 1; i <= bmax; i++) {
+          // button[i]にobnizのボタンの値を記録
+          button[i] = obniz.wired("Button", { signal: i, gnd: 0 });
+          // num[i]にid：num1～4を格納
+          num[i] = document.getElemntByID("num_" + i);
 
-        // id：.htmlのnum_1を取得し、num1に格納する。
-        var num1 = document.getElementById("num_1");
-        var num2 = document.getElementById("num_2");
-        var num3 = document.getElementById("num_3");
-        var num4 = document.getElementById("num_4");
-
-        button1.onchange = function (pressed) {
-          // pressedをコンソールに表示
-          console.log("pressed1:" + pressed);
-          // pressedが押されている場合
-          if (pressed === true) {
-            // testに"on"を表示する。
-            num1.innerHTML = "on";
-            // pressedが押されてない場合
-          } else if (pressed === false) {
-            // testに"off"を表示する。
-            num1.innerHTML = "off";
-          }
-        };
+          //button[i]のON/OFF時の動作
+          button[i].onchange = function (pressed) {
+            // button[i]が押されている時
+            if (pressed === true) {
+              // num[i]に有るよ～を入れる。
+              num[i].innerHTML = "有るよ～";
+              // button[i]が押されて無い時
+            } else if (pressed === false) {
+              // num[i]にナッシンを入れる
+              num[i].innerHTML = "ナッシン";
+            }
+          };
+        }
       };
     </script>
   </body>

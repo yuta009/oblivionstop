@@ -37,7 +37,6 @@
     <div class="container">
       <div class="text-center">
         <h1>オブストゥ</h1>
-        <h3>offline</h3>
         <h3>マヨネーズ： <span id="num_1">あるかどうかを表示するよ。</span></h3>
         <h3>ケチャップ： <span id="num_2">あるかどうかを表示するよ。</span></h3>
         <h3>
@@ -48,6 +47,8 @@
     </div>
 
     <script>
+      let textex = "有るよ～"; //ボタンが押されている時の表示文字
+      let textno = "ナッシン"; //ボタンが押されてない時の表示文字
       //put your obniz ID
       var obniz = new Obniz("OBNIZ_ID_HERE");
 
@@ -72,11 +73,51 @@
           // pressedが押されている場合
           if (pressed === true) {
             // testに"on"を表示する。
-            num1.innerHTML = "on";
+            num1.innerHTML = textex;
             // pressedが押されてない場合
           } else if (pressed === false) {
             // testに"off"を表示する。
-            num1.innerHTML = "off";
+            num1.innerHTML = textno;
+          }
+        };
+        button2.onchange = function (pressed) {
+          // pressedをコンソールに表示
+          console.log("pressed2:" + pressed);
+          // pressedが押されている場合
+          if (pressed === true) {
+            // testに"on"を表示する。
+            num2.innerHTML = textex;
+            // pressedが押されてない場合
+          } else if (pressed === false) {
+            // testに"off"を表示する。
+            num2.innerHTML = textno;
+          }
+        };
+        button3.onchange = function (pressed) {
+          // pressedをコンソールに表示
+          console.log("pressed3:" + pressed);
+          // pressedが押されている場合
+          if (pressed === true) {
+            // testに"on"を表示する。
+            num3.innerHTML = textex;
+            // pressedが押されてない場合
+          } else if (pressed === false) {
+            // testに"off"を表示する。
+            num3.innerHTML = textno;
+          }
+        };
+
+        button4.onchange = function (pressed) {
+          // pressedをコンソールに表示
+          console.log("pressed4:" + pressed);
+          // pressedが押されている場合
+          if (pressed === true) {
+            // testに"on"を表示する。
+            num4.innerHTML = textex;
+            // pressedが押されてない場合
+          } else if (pressed === false) {
+            // testに"off"を表示する。
+            num4.innerHTML = textno;
           }
         };
       };

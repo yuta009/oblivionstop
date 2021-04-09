@@ -1,58 +1,78 @@
 <!-- 
 　日付：2021/04/04
-　目的：onbizを使用して、ディスプレイにテキストを表示する。
-　概要：ブラウザでテキストを設定し、出力ボタンを押すと、onbizにテキストを表示する。
- -->
+　目的：onbizを使用して、ボタンが押されたら、ブラウザにONと表示するプログラム
+　概要： 接続時：有るよ～
+        未接続時：ナッシン
+        とブラウザに表示する。
+        1番ピン：マヨネーズ
+        2番ピン：ケチャップ
+        3番ピン：金のゴマダレ
+        4番ピン：カップ麺
+        があるかどうかを監視する。
+-->
 
 <!DOCTYPE html>
 <html lang="ja">
-<head>
+  <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    />
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://unpkg.com/obniz@3.x/obniz.js" crossorigin="anonymous" ></script>
+    <script
+      src="https://unpkg.com/obniz@3.x/obniz.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- JQuaryの追加 -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- CSSの設定 -->
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div id="obniz-debug"></div>
     <div class="container">
       <div class="text-center">
-        <h3>Print Text on obniz</h3>
-        <input type="text" id="text" value="Hello World" />
-        <button class="btn btn-primary" id="showtime">Print on obniz</button>
-      </div>
-
-      <div class="text-center">
-        <h5 style="margin-top:20px;">Display Switch State on obniz</h3>
-        <div id="print"></div>
+        <h1>オブストゥ</h1>
+        <h3>offline</h3>
+        <h3>マヨネーズ： <span id="num_1">個数を表示するよ。</span></h3>
+        <h3>ケチャップ： <span id="num_2">個数を表示するよ。</span></h3>
+        <h3>金のゴマダレ： <span id="num_3">個数を表示するよ。</span></h3>
+        <h3>カップ麺： <span id="num_4">個数を表示するよ。</span></h3>
       </div>
     </div>
 
     <script>
+      // 変数の宣言
+      let i; //カウント用変数
+      let num = [];
+
       //put your obniz ID
       var obniz = new Obniz("OBNIZ_ID_HERE");
 
       //during obniz connection
-      obniz.onconnect = async function() {
-        //init switch state on obniz
-        $("#print").text(await obniz.switch.getWait());
-
-        //if the "Print on obniz" clicked
-        $("#showtime").on("click", function() {
-          //show input text on obniz display
-          obniz.display.clear();
-          obniz.display.print($("#text").val());
-        });
-
-        //if the switch state changes
-        obniz.switch.onchange = function(state) {
-          //show the state on browser
-          $("#print").text(state);
-          //show the state on obniz display
-          obniz.display.clear();
-          obniz.display.print(state);
+      obniz.onconnect = async function () {
+        //buttonを押したときの動作
+        //0と1の接続
+        var button = obniz.wired("Button", { signal: 1, gnd: 0 });
+        button.onchange = function (pressed) {
+          // pressedをコンソールに表示
+          console.log("pressed:" + pressed);
+          // id：.htmlのtestを取得し、testに格納する。
+          var test = document.getElementById("num_1");
+          // pressedが押されている場合
+          if (pressed === true) {
+            // testに"on"を表示する。
+            test.innerHTML = "on";
+            // pressedが押されてない場合
+          } else if (pressed === false) {
+            // testに"off"を表示する。
+            test.innerHTML = "off";
+          }
         };
-
       };
     </script>
   </body>
